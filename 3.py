@@ -13,11 +13,11 @@
 # nums = [int(x) for x in input().split()]
 #
 # total = 0
-# a = 0
+# a1 = 0
 # for x in nums:
-#     a += int(str(x) + str(nums[0]))
+#     a1 += int(str(x) + str(nums[0]))
 #
-# b = (a - int(str(nums[0]) * 2) * n) // 10  # кол-во десяток
+# b = (a1 - int(str(nums[0]) * 2) * n) // 10  # кол-во десяток
 # for x in nums:
 #     total += (int(str(nums[0]) + str(x)) * n) + b * 10
 # print(total)
