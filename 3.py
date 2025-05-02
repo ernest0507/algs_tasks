@@ -1,23 +1,17 @@
-# решение 1
-# N = int(input())
-# nums = [int(x) for x in input().split()]
-# summ = 0
-# for x in nums:
-#     for y in nums:
-#         summ += int(str(x) + str(y))
-#
-# print(summ)
+n = int(input())
+a = [int(x) for x in input().split()]
 
-# решение 2
-# n = int(input())
-# nums = [int(x) for x in input().split()]
-#
-# total = 0
-# a1 = 0
-# for x in nums:
-#     a1 += int(str(x) + str(nums[0]))
-#
-# b = (a1 - int(str(nums[0]) * 2) * n) // 10  # кол-во десяток
-# for x in nums:
-#     total += (int(str(nums[0]) + str(x)) * n) + b * 10
-# print(total)
+count = [0] * 5  # создаем массив для подсчета чисел по разрядам
+
+for num in a:  # заполняем массив count
+    count[len(str(num))] += 1
+
+total = 1
+for num in a:
+    for i in range(1, 5):
+        if count[i] != 0:
+            total *= num * 10 ** len(str(num)) * count[i]
+            total *= num * count[i]
+
+print(total)
+print(11 * 22 * 21 * 12)
