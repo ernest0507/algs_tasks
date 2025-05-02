@@ -1,18 +1,22 @@
 n, m = [int(x) for x in input().split()]
-nums = [[int(x) for x in input().split()] for _ in range(n)]
+nums = [[0] * m for _ in range(n)]
 
-max_result = 0
-count, sportsmen = 1, []
+x = 1
+a = 0
 for i in range(n):
     for j in range(m):
-        if max_result < nums[i][j]:
-            max_result = nums[i][j]
-            sportsmen.clear()
-            sportsmen.append(i)
-            count = 1
-        elif max_result == nums[i][j] and i not in sportsmen:
-            count += 1
-            sportsmen.append(i)
+        if nums[i][j] == 0:
+            nums[i][j] = a
+            a += 1
+        x = i
+        x += 1
+        j -= 1
+        while x  < n and j - 1 >= 0:
+            nums[x + 1][j - 1] = a
+            x += 1
+            j -= 1
+            a += 1
 
-print(count)
-print(*sportsmen, sep='\n')
+
+print(nums)
+
