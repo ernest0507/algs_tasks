@@ -1,22 +1,22 @@
-n, m = [int(x) for x in input().split()]
-nums = [[0] * m for _ in range(n)]
+n, m1, m2 = 4, 1, 2
+intervals = [(0, 4), (1, 5), (2, 6), (3, 4)]
+intervals.sort()
 
-x = 1
-a = 0
+count = 0
 for i in range(n):
-    for j in range(m):
-        if nums[i][j] == 0:
-            nums[i][j] = a
-            a += 1
-        x = i
-        x += 1
-        j -= 1
-        while x  < n and j - 1 >= 0:
-            nums[x + 1][j - 1] = a
-            x += 1
-            j -= 1
-            a += 1
+    l1, r1 = intervals[i]
+    prevs = []
+    for j in range(i + 1, n):
+        l2, r2 = intervals[j]
+        if max(l1, l2) < min(r1, r2) and m1 <= min(r1, r2) - max(l1, l2) <= m2:
+            count += 1
+            if len(prevs) > 0:
+                count += j - i - 1
+        prevs.append([l2, r2])
 
 
-print(nums)
+print(count)
+
+
+
 
