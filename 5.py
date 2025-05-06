@@ -1,18 +1,17 @@
-n, m1, m2 = 4, 1, 2
-intervals = [(0, 4), (1, 5), (2, 6), (3, 4)]
-intervals.sort()
+n, m1, m2 = [int(x) for x in input().split()]
+segments = [[int(x) for x in input().split()] for _ in range(n)]
 
-count = 0
-for i in range(n):
-    l1, r1 = intervals[i]
-    prevs = []
-    for j in range(i + 1, n):
-        l2, r2 = intervals[j]
-        if max(l1, l2) < min(r1, r2) and m1 <= min(r1, r2) - max(l1, l2) <= m2:
-            count += 1
-            if len(prevs) > 0:
-                count += j - i - 1
-        prevs.append([l2, r2])
+# Time complexity O(n**2)
+def solution1(n):
+    count = 0
+    for i in range(n):
+        l = segments[i][0]
+        r = segments[i][1]
+        for j in range(i, n):
+            l = max(l, segments[j][0])
+            r = min(r, segments[j][1])
+            len_cur = max(r - l, 0)
+            if m1 <= len_cur <= m2:
+                count += 1
+        return count
 
-
-print(count)
