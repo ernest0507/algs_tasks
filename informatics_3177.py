@@ -1,35 +1,12 @@
 nums = [int(x) for x in input().split()]
 k = int(input())
-n = len(nums)
 
+x = 0
+for i in range(k % len(nums)):
+    x = nums[-1]
+    nums[-1] = 0
+    for j in range(len(nums) - 1, 0, -1):
+        nums[j], nums[j - 1] = nums[j - 1], nums[j]
+    nums[0] = x
 
-def solution1(nums, k, n):
-    a = []
-    b = []
-    if k > n:
-        k -= n
-    for i in range(n):
-        if i + k < n:
-            a.append(nums[i])
-        else:
-            b.append(nums[i])
-    return b + a
-
-
-def solution2(nums, k, n):
-    a = []
-    b = []
-    if abs(k) > n:
-        k += n
-    for i in range(n):
-        if i + k < 0:
-            a.append(nums[i])
-        else:
-            b.append(nums[i])
-    return b + a
-
-
-if k >= 0:
-    print(*solution1(nums, k, n))
-else:
-    print(*solution2(nums, k, n))
+print(*nums)
