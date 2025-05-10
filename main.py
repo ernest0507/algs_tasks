@@ -1,54 +1,30 @@
-n, k = [int(x) for x in input().split()]
-nums = [int(x) for x in input().split()]
-nums.sort()
+n, m, k, p = [int(x) for x in input().split()]
+lst = [[x for x in input().split()] for _ in range(p)]
+constraints = {}
+for cons_type, num_student, row, col in lst:
+    constraints[int(num_student)] = [cons_type, int(row), int(col)]
+q = int(input())
+commands = [[int(x) for x in input().split()[1:]] for _ in range(q)]
 
+matr = [[0] * m for _ in range(n)]  # представление мест в аудитории в виде матрицы
 
-# O(n logn)
-# ломает на тесте 5 5 5 5 5, k = 10
-def solution1(n, k, nums):
-    def bs(a, x, y):
-        l, r = -1, len(a) - 1
-        while l + 1 != r:
-            c = (l + r) // 2
-            if a[c] + x < y:
-                l = c
-            else:
-                r = c
-        return a[r]
+occupied = {}  # для записи занятых мест
+count = 0  # счетчик нарушений
+for student, row, column in commands:
+    if student in occupied:  # если ученик уже сидел на каком-то месте
+        matr[occupied[student][0]][occupied[student][1]] = 0  # освобождаем место
+        del occupied[student]
+    if matr[row - 1][column - 1] == 0:  # если свободное, то сажаем
+        matr[row - 1][column - 1] = 1
+        occupied[student] = [row - 1, column - 1]  # записываем ученика в словарь
+    else:  # если пытаемся усадить уже на занятое место
+        count += 1
+    if student in constraints:  # проверка на ограничения
+        if constraints[student][0] == 'R':
+            if not (constraints[student][1] <= row <= constraints[student][2]):
+                count += 1
+        else:
+            if not (constraints[student][1] <= column <= constraints[student][2]):
+                count += 1
 
-    count = 0
-    for num1 in nums[::-1]:
-        num2 = bs(nums, num1, k)
-        if num1 + num2 == k:
-            count += 1
-
-    return count // 2
-
-
-# O(n)
-# ломает на тесте 1 1 3 3 3 5, k = 6
-def solution2(n, k, nums):
-    count = 0
-    i, j = 0, n - 1
-    while i != j and j > 0 and i < n:
-        cur_sum = nums[i] + nums[j]
-        if cur_sum == k:
-            count += 1
-            j -= 1
-        elif cur_sum < k:
-            i += 1
-        elif cur_sum > k:
-            j -= 1
-
-    return count
-
-
-# from random import randint
-# for _ in range(100):
-#     n = randint(5, 10)
-#     k = randint(1, 15)
-#     nums = [randint(1, 20) for _ in range(n)]
-#     assert solution1(n, k, nums) == solution2(n, k, nums), f'solution1 - {solution1(n, k, nums)} | solution2 - {solution2(n, k, nums)} | {k, sorted(nums)}'
-# #
-print(solution1(n, k, nums))
-print(solution2(n, k, nums))
+print(k - q + count)
