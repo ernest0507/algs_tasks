@@ -1,6 +1,19 @@
 n, m = [int(x) for x in input().split()]
 cars = list(input())
 l = 0
+if m == 0:
+    countm, count = 0, 0
+    for car in cars:
+        if car == 'B':
+            count += 1
+        else:
+            count = 0
+        countm = max(countm, count)
+    print(countm)
+    quit()
+
+
+
 while l < n and cars[l] != 'B':
     l += 1
 
