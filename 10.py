@@ -52,3 +52,46 @@ def solution2(n, k, nums):
 # #
 print(solution1(n, k, nums))
 print(solution2(n, k, nums))
+
+import itertools
+
+
+def min_elements_to_remove(n, k, arr):
+    min_remove = n  # Изначально предполагаем худший случай - выключить все элементы
+
+    # Перебираем все возможные комбинации включения/выключения
+    for mask in itertools.product([0, 1], repeat=n):
+        # Количество выключенных элементов в текущей комбинации
+        count_removed = mask.count(0)
+
+        # Если уже хуже текущего минимума, пропускаем проверку
+        if count_removed >= min_remove:
+            continue
+
+        valid = True  # Флаг, что текущая комбинация допустима
+
+        # Проверяем все возможные пары включенных элементов
+        for i in range(n):
+            if not mask[i]:  # Если элемент выключен, пропускаем
+                continue
+            for j in range(i + 1, n):
+                if not mask[j]:  # Если элемент выключен, пропускаем
+                    continue
+                # Проверяем запрещенную сумму
+                if arr[i] + arr[j] == k:
+                    valid = False
+                    break  # Нашли запрещенную пару, дальше проверять бессмысленно
+            if not valid:
+                break  # Выходим из внешнего цикла, если нашли запрещенную пару
+
+        # Если комбинация допустима и лучше текущего минимума
+        if valid and count_removed < min_remove:
+            min_remove = count_removed
+
+    return min_remove
+
+
+n, k = [int(x) for x in input().split()]
+nums = [int(x) for x in input().split()]
+print(min_elements_to_remove(n, k, nums))
+

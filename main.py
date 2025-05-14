@@ -1,25 +1,22 @@
-# s = 'z'
-# t = 'abcde'
-#
-# i, j = 0, 0
-# flag = False
-# while i < len(s) and j < len(t) and s[i] == t[j]:
-#     flag = True
-#     i += 1
-#     j += 1
-#
-# if flag:
-#     if j == len(t):
-#         print(s)
-#     else:
-#         print(s + t)
-# else:
-#     print(s + t[j:])
+n = int(input()) # кол-во коробок
+boxes = [[int(x) for x in input().split()] for _ in range(n)] + [[0, 0]]
+
+boxes[-1] = [boxes[0][1], 0]
+boxes[0][1] = 0
+for i in range(n + 1):
+    if boxes[i][1] == 0:
+        find = boxes[i][0]
+        for j in range(i + 1, n + 1):
+            if boxes[j][1] == find:
+                boxes[i][1] = find
+                boxes[j][1] = 0
+                break
+            if boxes[j][1] == 0 and boxes[j][0] == find:
+                boxes[i][1] = find
+                boxes[j][0] = 0
+                break
 
 
-# def to3(x):
-#     res = []
-#     while x > 0:
-#         res.append(str(x % 3))
 
-print(f'{23:b}')
+print(boxes)
+
