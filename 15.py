@@ -33,4 +33,5 @@ for i in range(n):
             count += 4
 
 print(boxes)
+
 print(count)
