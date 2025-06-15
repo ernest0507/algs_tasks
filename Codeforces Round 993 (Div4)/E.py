@@ -9,9 +9,10 @@ for i in range(t):
         l1, l2 = l2, l1
         r1, r2 = r2, r1
     for x in range(l1, r1 + 1):
-        y = l2
-        while y % x != 0:
-            y += 1
+        y = x
+        while not (l2 <= y * i <= r2):
+            i += 1
+        y = x * i
         while l2 <= y <= r2:
             if log((y / x), k).is_integer():
                 count += 1
